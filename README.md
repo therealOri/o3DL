@@ -15,6 +15,8 @@ virtualenv o3ENV
 source o3ENV/bin/activate
 pip install -r requirements.txt
 ```
+> If you do not have `virtualenv` you can run `pip install virtualenv` then finish installing.
+
 <br />
 
 # WARNING!!! 
