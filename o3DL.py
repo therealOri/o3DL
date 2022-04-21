@@ -8,17 +8,14 @@ import random
 BLU = colorama.Style.BRIGHT + colorama.Fore.BLUE
 CYA = colorama.Style.BRIGHT + colorama.Fore.CYAN
 GRE = colorama.Style.BRIGHT + colorama.Fore.GREEN
-YEL = colorama.Style.BRIGHT + colorama.Fore.YELLOW # Doesn't work?  |  Doesn't show yellow for me.
 RED = colorama.Style.BRIGHT + colorama.Fore.RED
 MAG = colorama.Style.BRIGHT + colorama.Fore.MAGENTA
-LIYEL = colorama.Style.BRIGHT + colorama.Fore.LIGHTYELLOW_EX
 LIRED = colorama.Style.BRIGHT + colorama.Fore.LIGHTRED_EX
 LIMAG = colorama.Style.BRIGHT + colorama.Fore.LIGHTMAGENTA_EX
 LIBLU = colorama.Style.BRIGHT + colorama.Fore.LIGHTBLUE_EX
 LICYA = colorama.Style.BRIGHT + colorama.Fore.LIGHTCYAN_EX
 LIGRE = colorama.Style.BRIGHT + colorama.Fore.LIGHTGREEN_EX
 COLORS = BLU, CYA, GRE, YEL, RED, MAG, LIYEL, LIRED, LIMAG, LIBLU, LICYA, LIGRE
-FONTS = 'basic', 'o8', 'cosmic', 'graffiti', 'chunky', 'epic', 'poison', 'doom', 'avatar'
 colorama.init(autoreset=True)
 
 
