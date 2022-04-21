@@ -15,7 +15,7 @@ LIMAG = colorama.Style.BRIGHT + colorama.Fore.LIGHTMAGENTA_EX
 LIBLU = colorama.Style.BRIGHT + colorama.Fore.LIGHTBLUE_EX
 LICYA = colorama.Style.BRIGHT + colorama.Fore.LIGHTCYAN_EX
 LIGRE = colorama.Style.BRIGHT + colorama.Fore.LIGHTGREEN_EX
-COLORS = BLU, CYA, GRE, RED, MAG, LIYEL, LIRED, LIMAG, LIBLU, LICYA, LIGRE
+COLORS = BLU, CYA, GRE, RED, MAG, LIRED, LIMAG, LIBLU, LICYA, LIGRE
 colorama.init(autoreset=True)
 
 
