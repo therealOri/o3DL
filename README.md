@@ -19,13 +19,6 @@ pip install -r requirements.txt
 
 <br />
 
-# WARNING!!! 
-After installing pytube, you will need to use the patched `cypher.py` file provided here for pytube to work propperly. (untill they get it to work on their end). Check out the [Pytube Patch](https://github.com/therealOri/o3DL/discussions/2) discussions page for more info on how to do this.
-__ __
-
-<br />
-<br />
-
 # Support  |  Buy me a coffee <3
 Donate to me here:
 > - Don't have Cashapp? [Sign Up](https://cash.app/app/TKWGCRT)
