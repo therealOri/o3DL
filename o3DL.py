@@ -3,6 +3,8 @@ import os
 from moviepy.editor import *
 import colorama
 import random
+from alive_progress import alive_bar
+
 
 #COLORS
 BLU = colorama.Style.BRIGHT + colorama.Fore.BLUE
@@ -52,7 +54,9 @@ def clear():
 def vid(url):
     path = os.getcwd()
     try:
-        YouTube(url).streams.get_highest_resolution().download(path)
+        with alive_bar(0) as bar:
+            YouTube(url).streams.get_highest_resolution().download(path)
+            bar()
     except Exception as e:
         exit(RED + f"Oops, not a valid video url...\nError: {e}")
     clear()
@@ -67,8 +71,6 @@ def audio(mp4file, mp3file):
     videoclip.close()
     clear()
     return print(GRE + "Audio extraction complete!")
-
-
 
 
 def main():
