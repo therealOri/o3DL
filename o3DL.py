@@ -106,7 +106,7 @@ def main():
         elif options == 3:
             clear()
             exit(color2 + "Goodbye!")
-        elif options == 0 or options > 3:
+        elif options < 1 or options > 3:
             clear()
             print(RED + "Unknown option...")
             input(GRE + "Press enter to continue...")
