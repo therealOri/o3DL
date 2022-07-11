@@ -1,5 +1,5 @@
 colorama
 moviepy
 pytube
-alive_progress
+alive-progress
 yt-dlp
