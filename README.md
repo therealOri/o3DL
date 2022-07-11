@@ -1,7 +1,8 @@
 # About
 You can use o3DL to download youtube videos and to extract audio from video files.
 
-![image](https://user-images.githubusercontent.com/45724082/164530024-8dcfe32b-c47b-4441-a3ca-2897b040edbe.png)
+![image](https://user-images.githubusercontent.com/45724082/178301245-7700ca82-8395-4bef-9db3-dd09da6c09aa.png)
+
 __ __
 
 <br />
