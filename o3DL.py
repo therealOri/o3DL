@@ -1,4 +1,5 @@
 from pytube import YouTube
+import subprocess
 import os
 from moviepy.editor import *
 import colorama
@@ -62,6 +63,15 @@ def vid(url):
     clear()
     return print(GRE + "Youtube video download complete!")
 
+
+def p_list(url):
+    try:
+        subprocess.call(["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", f"{url}"])
+    except Exception as e:
+        exit(RED + f"Oops, not a valid playlist url...\nError: {e}")
+    clear()
+    return print(GRE + "Youtube playlist download complete!")
+
  
 def audio(mp4file, mp3file):
     videoclip = VideoFileClip(mp4file)
@@ -78,13 +88,15 @@ def main():
         try:
             logo()
             color2 = random.choice(COLORS)
-            options = int(input(color2 + "\n\n1. Download?\n2. Extract audio?\n3. Quit?\n\nEnter: "))
+            options = int(input(color2 + "\n\n1. Download Video?\n2. Download Playlist?\n3. Extract audio?\n4. Quit?\n\nEnter: "))
         except Exception as e:
             clear()
             print(RED + f"Oops and error occured..Not an integer.\nError: {e}\n\n")
             input(GRE + "Press enter to continue...")
             clear()
             continue
+
+
         if options == 1:
             clear()
             video = input(color2 + "Video URL: ")
@@ -96,6 +108,18 @@ def main():
             continue
         elif options == 2:
             clear()
+            plist = input(color2 + "Playlist URL: ")
+            clear()
+            print(color2 + "Downloading playlist.....(This will take awhile...)")
+            p_list(plist)
+            input(GRE + "Press enter to continue...")
+            clear()
+            continue
+
+
+
+        elif options == 3:
+            clear()
             vod1mp4 = input(color2 + "File to extract audio from.: ").replace('\\ ', ' ').strip().replace("'", '')
             audiomp3 = input(color2 + "Name of new audio file to be made.: ")
             clear()
@@ -103,10 +127,12 @@ def main():
             input(GRE + "Press enter to continue...")
             clear()
             continue
-        elif options == 3:
+        elif options == 4:
             clear()
             exit(color2 + "Goodbye!")
-        elif options < 1 or options > 3:
+
+
+        elif options < 1 or options > 4:
             clear()
             print(RED + "Unknown option...")
             input(GRE + "Press enter to continue...")
