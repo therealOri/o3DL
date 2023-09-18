@@ -1,10 +1,10 @@
 from pytube import YouTube
 import subprocess
 import os
-from moviepy.editor import *
 import colorama
-import random
-from alive_progress import alive_bar
+import atmos
+import beaupy
+from beaupy.spinners import *
 
 
 #COLORS
@@ -13,12 +13,7 @@ CYA = colorama.Style.BRIGHT + colorama.Fore.CYAN
 GRE = colorama.Style.BRIGHT + colorama.Fore.GREEN
 RED = colorama.Style.BRIGHT + colorama.Fore.RED
 MAG = colorama.Style.BRIGHT + colorama.Fore.MAGENTA
-LIRED = colorama.Style.BRIGHT + colorama.Fore.LIGHTRED_EX
-LIMAG = colorama.Style.BRIGHT + colorama.Fore.LIGHTMAGENTA_EX
-LIBLU = colorama.Style.BRIGHT + colorama.Fore.LIGHTBLUE_EX
-LICYA = colorama.Style.BRIGHT + colorama.Fore.LIGHTCYAN_EX
-LIGRE = colorama.Style.BRIGHT + colorama.Fore.LIGHTGREEN_EX
-COLORS = BLU, CYA, GRE, RED, MAG, LIRED, LIMAG, LIBLU, LICYA, LIGRE
+COLORS = [BLU, CYA, GRE, RED, MAG]
 colorama.init(autoreset=True)
 
 
@@ -29,8 +24,8 @@ colorama.init(autoreset=True)
 
 def logo() -> None:
     clear()
-    color1 = random.choice(COLORS)
-    print(color1 + """
+    color1 = atmos.choice(COLORS)
+    return color1 + """
 ---------------------------------------------------------------------------
 
                    ██████╗ ██████╗ ██████╗ ██╗     
@@ -40,10 +35,8 @@ def logo() -> None:
                   ╚██████╔╝██████╔╝██████╔╝███████╗
                   ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
                                                                         
-      Made by Ori#6338 | @therealOri_ | https://github.com/therealOri
-
----------------------------------------------------------------------------\n      
-    """)
+       Made by @therealOri_ | https://github.com/therealOri
+"""
 
 
 
@@ -52,65 +45,72 @@ def clear():
     os.system("clear||cls")
 
 
+
 def vid(url):
     path = os.getcwd()
     try:
-        with alive_bar(0) as bar:
-            YouTube(url).streams.get_highest_resolution().download(path)
-            bar()
+        spinner = Spinner(ARC, "Downloading video...")
+        spinner.start()
+        YouTube(url).streams.get_highest_resolution().download(path)
     except Exception as e:
-        exit(RED + f"Oops, not a valid video url...\nError: {e}")
+        spinner.stop()
+        quit(RED + f"Oops, not a valid video url...\nError: {e}")
+    spinner.stop()
     clear()
     return print(GRE + "Youtube video download complete!")
+
 
 
 def p_list(url):
     try:
         subprocess.call(["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", f"{url}"])
     except Exception as e:
-        exit(RED + f"Oops, not a valid playlist url...\nError: {e}")
+        quit(RED + f"Oops, not a valid playlist url...\nError: {e}")
     clear()
     return print(GRE + "Youtube playlist download complete!")
 
- 
+
+
 def audio(mp4file, mp3file):
-    videoclip = VideoFileClip(mp4file)
-    audioclip = videoclip.audio
-    audioclip.write_audiofile(mp3file)
-    audioclip.close()
-    videoclip.close()
+    try:
+        subprocess.check_call(["ffmpeg", "-i", mp4file, "-q:a", "0", "-map", "a", mp3file])
+    except Exception as e:
+        quit(RED + f"Oops, couldn't extract audio...\nError: {e}")
     clear()
     return print(GRE + "Audio extraction complete!")
 
 
+
 def main():
     while True:
-        try:
-            logo()
-            color2 = random.choice(COLORS)
-            options = int(input(color2 + "\n\n1. Download Video?\n2. Download Playlist?\n3. Extract audio?\n4. Quit?\n\nEnter: "))
-        except Exception as e:
+        clear()
+        options = ['Download Video?', 'Download Playlist?', 'Extract Audio?', 'Quit?']
+        print(f'{logo()}\n\nWhat would you like to do?\n-----------------------------------------------------------\n')
+        option = beaupy.select(options, cursor_style="#ffa533")
+
+        if not option:
             clear()
-            print(RED + f"Oops and error occured..Not an integer.\nError: {e}\n\n")
-            input(GRE + "Press enter to continue...")
-            clear()
-            continue
+            quit("Keyboard Interuption Detected!\nGoodbye <3")
 
 
-        if options == 1:
+        if options[0] in option:
+            video = beaupy.prompt("Video URL")
+            if not video:
+                clear()
+                continue
             clear()
-            video = input(color2 + "Video URL: ")
-            clear()
-            print(color2 + "Downloading video.....")
             vid(video)
             input(GRE + "Press enter to continue...")
             clear()
             continue
-        elif options == 2:
+
+        if options[1] in option:
+            plist = beaupy.prompt("Playlist URL")
+            if not plist:
+                clear()
+                continue
             clear()
-            plist = input(color2 + "Playlist URL: ")
-            clear()
-            print(color2 + "Downloading playlist.....(This will take awhile...)")
+            print(RED + "Downloading playlist....This will take some time..")
             p_list(plist)
             input(GRE + "Press enter to continue...")
             clear()
@@ -118,29 +118,31 @@ def main():
 
 
 
-        elif options == 3:
-            clear()
-            vod1mp4 = input(color2 + "File to extract audio from.: ").replace('\\ ', ' ').strip().replace("'", '')
-            audiomp3 = input(color2 + "Name of new audio file to be made.: ")
+        if options[2] in option:
+            vod1mp4 = beaupy.prompt("File to extract audio from.")
+            if not vod1mp4:
+                clear()
+                continue
+            vod1mp4 = vod1mp4.replace('\\ ', ' ').strip().replace("'", '')
+
+            audiomp3 = beaupy.prompt("Name of new audio file to be made. - (example_file)")
+            if not audiomp3:
+                clear()
+                continue
             clear()
             audio(vod1mp4, audiomp3)
             input(GRE + "Press enter to continue...")
             clear()
             continue
-        elif options == 4:
-            clear()
-            exit(color2 + "Goodbye!")
 
 
-        elif options < 1 or options > 4:
+
+        if options[3] in option:
+            color2 = atmos.choice(COLORS)
             clear()
-            print(RED + "Unknown option...")
-            input(GRE + "Press enter to continue...")
-            clear()
-            continue
+            quit(color2 + "Goodbye!")
 
 
 
 if __name__ == '__main__':
-    logo()
     main()
