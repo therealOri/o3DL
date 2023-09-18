@@ -1,5 +1,4 @@
 colorama
-moviepy
 pytube
-alive-progress
+beaupy
 yt-dlp
