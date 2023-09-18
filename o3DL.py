@@ -1,10 +1,8 @@
-from pytube import YouTube
 import subprocess
 import os
 import colorama
 import atmos
 import beaupy
-from beaupy.spinners import *
 
 
 #COLORS
@@ -49,13 +47,9 @@ def clear():
 def vid(url):
     path = os.getcwd()
     try:
-        spinner = Spinner(ARC, "Downloading video...")
-        spinner.start()
-        YouTube(url).streams.get_highest_resolution().download(path)
+        subprocess.check_call(["yt-dlp", "-o", "%(title)s.%(ext)s", "-f", "bestvideo+bestaudio", url])
     except Exception as e:
-        spinner.stop()
         quit(RED + f"Oops, not a valid video url...\nError: {e}")
-    spinner.stop()
     clear()
     return print(GRE + "Youtube video download complete!")
 
@@ -63,7 +57,7 @@ def vid(url):
 
 def p_list(url):
     try:
-        subprocess.call(["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", f"{url}"])
+        subprocess.check_call(["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", url])
     except Exception as e:
         quit(RED + f"Oops, not a valid playlist url...\nError: {e}")
     clear()
@@ -99,6 +93,7 @@ def main():
                 clear()
                 continue
             clear()
+            print("Downloading video...")
             vid(video)
             input(GRE + "Press enter to continue...")
             clear()
@@ -125,7 +120,7 @@ def main():
                 continue
             vod1mp4 = vod1mp4.replace('\\ ', ' ').strip().replace("'", '')
 
-            audiomp3 = beaupy.prompt("Name of new audio file to be made. - (example_file)")
+            audiomp3 = beaupy.prompt("Name of new audio file to be made. - (example_file.mp3)")
             if not audiomp3:
                 clear()
                 continue
