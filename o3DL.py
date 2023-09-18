@@ -3,6 +3,7 @@ import os
 import colorama
 import atmos
 import beaupy
+import sys
 
 
 #COLORS
@@ -45,9 +46,13 @@ def clear():
 
 
 def vid(url):
-    path = os.getcwd()
+    if sys.platform == 'win32':
+        cmd_arg = ["cmd.exe", "/c", "yt-dlp", "-o", "%(title)s.%(ext)s", "-f", "bestvideo+bestaudio", url]
+    else:
+        cmd_arg = ["yt-dlp", "-o", "%(title)s.%(ext)s", "-f", "bestvideo+bestaudio", url]
+
     try:
-        subprocess.check_call(["yt-dlp", "-o", "%(title)s.%(ext)s", "-f", "bestvideo+bestaudio", url])
+        subprocess.check_call(cmd_arg)
     except Exception as e:
         quit(RED + f"Oops, not a valid video url...\nError: {e}")
     clear()
@@ -56,8 +61,13 @@ def vid(url):
 
 
 def p_list(url):
+    if sys.platform == 'win32':
+        cmd_arg = ["cmd.exe", "/c", "yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", url]
+    else:
+        cmd_arg = ["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", url]
+
     try:
-        subprocess.check_call(["yt-dlp", "-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", url])
+        subprocess.check_call(cmd_arg)
     except Exception as e:
         quit(RED + f"Oops, not a valid playlist url...\nError: {e}")
     clear()
@@ -66,8 +76,13 @@ def p_list(url):
 
 
 def audio(mp4file, mp3file):
+    if sys.platform == 'win32':
+        cmd_arg = ["cmd.exe", "/c", "ffmpeg", "-i", mp4file, "-q:a", "0", "-map", "a", mp3file]
+    else:
+        cmd_arg = ["ffmpeg", "-i", mp4file, "-q:a", "0", "-map", "a", mp3file]
+
     try:
-        subprocess.check_call(["ffmpeg", "-i", mp4file, "-q:a", "0", "-map", "a", mp3file])
+        subprocess.check_call(cmd_arg)
     except Exception as e:
         quit(RED + f"Oops, couldn't extract audio...\nError: {e}")
     clear()
